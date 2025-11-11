@@ -28,7 +28,7 @@ function Header({ toggleSidebar, openSidebar }) {
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <FaShoppingBasket size={22} className="text-orange-800" />
-            <h1 className="text-lg font-bold text-orange-800">Restro</h1>
+            <h1 className="text-lg font-bold text-orange-800">GK_STORE</h1>
           </div>
           {/* Sidebar Toggle */}
           {openSidebar ? (
@@ -50,7 +50,7 @@ function Header({ toggleSidebar, openSidebar }) {
 
         {/* RIGHT SIDE: Branch, Language, User Profile */}
         <div className="flex items-center space-x-4">
-          <p className="text-sm hidden sm:block">Branch: Bettiah (Main)</p>
+          <p className="text-sm hidden sm:block">Branch: Delhi</p>
           {/* <select className="border rounded px-2 py-1 text-black hidden sm:block">
             <option value="english">English</option>
             <option value="hindi">Hindi</option>
