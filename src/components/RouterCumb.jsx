@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 
-// Friendly label map
+// Friendly label map with "Product" replacing "Food"
 const labelMap = {
   admin: "Admin",
   dashboard: "Dashboard",
@@ -15,10 +15,10 @@ const labelMap = {
   create: "Create",
   new: "New",
   users: "Users",
-  addFood: "Add Food",
-  adminFood: "Manage Food",
-  editFood: "Edit Food",
-  "food-details": "Food View",
+  addProduct: "Add Product", // Changed from addFood to addProduct
+  adminProduct: "Manage Product", // Changed from adminFood to adminProduct
+  editProduct: "Edit Product", // Changed from editFood to editProduct
+  "product-view": "Product View", // Changed from food-details to product-view
   categories: "Categories",
   addCategory: "Add Category",
   editCategory: "Edit Category",

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getFood } from '../../services/FoodApi';
+// import { getFood } from '../../services/ProductApi';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { FaEdit } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';

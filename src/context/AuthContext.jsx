@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { authMe, login as loginApi, logout as logoutApi } from "../services/authApi";
-import useNotification from "../hooks/useNotification"; // 
+// import useNotification from "../hooks/useNotification"; // 
 const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
@@ -8,15 +8,13 @@ export const useAuth = () => useContext(AuthContext);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { prepareSound } = useNotification();
+  // const { prepareSound } = useNotification();
   useEffect(() => {
     const validateSession = async () => {
       try {
         const res = await authMe();
         setUser(res.data);
-
-
-        prepareSound();
+        
       } catch (err) {
         console.warn("Session invalid or expired", err);
         setUser(null);

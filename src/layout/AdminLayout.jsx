@@ -28,23 +28,22 @@ const AdminLayout = () => {
       {/* <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeButton={true} /> */}
 
       {/* Sidebar */}
-  <Sidebar
-  className={`
+      <Sidebar
+        className={`
     lg:fixed absolute left-0 z-30 w-64 bg-white 
     top-[10vh]
     transition-transform duration-300 ease-in-out 
     ${openSidebar ? "translate-x-0" : "-translate-x-full"}
   `}
-  toggleSidebar={toggleSidebar}
-/>
+        toggleSidebar={toggleSidebar}
+      />
 
 
 
       {/* Main content area */}
       <div
-        className={`flex flex-col flex-1 transition-all duration-300 ease-in-out ${
-          openSidebar ? "lg:ml-64" : "ml-0"
-        }`}
+        className={`flex flex-col flex-1 transition-all duration-300 ease-in-out ${openSidebar ? "lg:ml-64" : "ml-0"
+          }`}
       >
         {/* Header */}
         <Header toggleSidebar={toggleSidebar} openSidebar={openSidebar} />

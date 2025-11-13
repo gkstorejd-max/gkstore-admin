@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { Printer, Volume2, VolumeX } from 'lucide-react';
+import { Printer } from 'lucide-react';
 import SalesChart from '../pages/report/SalesChart';
 import axios from '../utils/Axios';
-import useNotification from '../hooks/useNotification';
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([]);
@@ -11,23 +10,13 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const ordersRef = useRef();
 
-  const { 
-    notification, 
-    notify, 
-    clearNotification, 
-    requestNotificationPermission,
-    soundEnabled 
-  } = useNotification();
-
-  const socketURL ='https://api.the9to9restaurant.com'
-    // import.meta.env.VITE_NODE_ENV === 'development'
-    //   ? 'http://localhost:5005'
-    //   : 'wss://api.the9to9restaurant.com';
+  // const socketURL = 'https://api.the9to9restaurant.com';
+  const socketURL = 'http://localhost:6005';
 
   useEffect(() => {
-    const socket = io(socketURL, { 
+    const socket = io(socketURL, {
       withCredentials: true,
-      transports: ['websocket', 'polling'], // Better connection reliability
+      transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
@@ -36,28 +25,9 @@ export default function Dashboard() {
 
     fetchOrders();
 
-    // Request notification permission on mount
-    requestNotificationPermission();
-
     socket.on('newOrder', (order) => {
       console.log('📦 New order received: ', order);
-      // toast.success('📦 New order received!');
-      // Update orders list
       setOrders((prevOrders) => [order, ...prevOrders]);
-      
-      // Show notification with sound
-      notify(`🔔 New order from ${order?.shippingAddress?.name || order?.user?.name || 'Customer'}!`);
-      
-      // Also show browser notification if permitted
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("New Order Received!", {
-          body: `Order from ${order?.shippingAddress?.name || 'Customer'}\nAmount: ₹${order?.totalAmount?.toFixed(2)}`,
-          icon: "/logo.png",
-          badge: "/logo.png",
-          tag: `order-${order._id}`,
-          requireInteraction: true,
-        });
-      }
     });
 
     socket.on('connect', () => {
@@ -70,7 +40,7 @@ export default function Dashboard() {
 
     socket.on('reconnect', (attemptNumber) => {
       console.log('📡 Reconnected after', attemptNumber, 'attempts');
-      fetchOrders(); // Refresh orders on reconnect
+      fetchOrders();
     });
 
     socket.on('connect_error', (error) => {
@@ -101,7 +71,7 @@ export default function Dashboard() {
   const handlePrintOrders = () => {
     const printContent = ordersRef.current.innerHTML;
     const printWindow = window.open('', '', 'width=800,height=600');
-    
+
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
@@ -114,8 +84,9 @@ export default function Dashboard() {
               border: 1px solid #ddd; 
               padding: 15px; 
               margin-bottom: 15px; 
-              border-radius: 8px;
+              border-radius: 12px;
               page-break-inside: avoid;
+              box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             }
             .order-header { 
               display: flex; 
@@ -144,7 +115,7 @@ export default function Dashboard() {
         </body>
       </html>
     `);
-    
+
     printWindow.document.close();
     printWindow.focus();
     setTimeout(() => {
@@ -155,53 +126,12 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8 overflow-hidden relative">
-      {/* Notification Banner */}
-      {notification && (
-        <div className="fixed top-4 right-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-4 rounded-lg shadow-2xl z-50 animate-bounce max-w-sm">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
-              <span className="font-semibold">{notification}</span>
-            </div>
-            <button 
-              onClick={clearNotification} 
-              className="ml-4 text-white hover:text-gray-200 font-bold text-lg"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Sound Status Indicator */}
-      {/* <div className="fixed top-4 left-4 z-50">
-        <div className={`flex items-center gap-2 px-4 py-2 rounded-lg shadow-md ${
-          soundEnabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-        }`}>
-          {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
-          <span className="text-sm font-medium">
-            {soundEnabled ? 'Sound ON' : 'Sound OFF - Click anywhere to enable'}
-          </span>
-        </div>
-      </div> */}
-{/* Sound Status Indicator */}
-<div className="fixed bottom-4 right-4 z-50">
-  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg shadow-md text-sm ${
-    soundEnabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-  }`}>
-    {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
-    <span>
-      {soundEnabled ? 'Sound ON' : 'Sound OFF'}
-    </span>
-  </div>
-</div>
-
       {/* Background Circles */}
       <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-40 sm:w-60 h-40 sm:h-60 bg-orange-200 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-pulse"></div>
       <div className="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 w-40 sm:w-60 h-40 sm:h-60 bg-yellow-200 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-pulse"></div>
 
       {/* Header */}
-      <h2 className="text-2xl sm:text-3xl font-extrabold mb-6 sm:mb-8 text-gray-800 flex items-center gap-3 z-10 relative mt-16">
+      <h2 className="text-2xl sm:text-3xl font-extrabold mb-6 sm:mb-8 text-gray-800 flex items-center gap-3 z-10 relative mt-6">
         GK Store Dashboard
       </h2>
 
@@ -222,7 +152,7 @@ export default function Dashboard() {
           {orders.length > 0 && (
             <button
               onClick={handlePrintOrders}
-              className="flex items-center px-3 sm:px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors shadow-md hover:shadow-lg"
+              className="flex items-center px-3 sm:px-4 py-2 bg-orange-500 text-white rounded-lg shadow-md hover:bg-orange-600 transition-colors"
             >
               <Printer size={18} className="mr-2" />
               Print Orders
@@ -240,7 +170,7 @@ export default function Dashboard() {
               orders.map((order) => (
                 <div
                   key={order._id}
-                  className="order-card bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow"
+                  className="order-card bg-white p-6 rounded-lg shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow"
                 >
                   <div className="space-y-3">
                     {/* Customer & Status */}
@@ -329,7 +259,7 @@ export default function Dashboard() {
       {/* Sales Chart */}
       <section className="z-10 relative mt-8 sm:mt-12">
         <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800">Sales Trends</h3>
-        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow">
           <SalesChart />
         </div>
       </section>
@@ -353,12 +283,12 @@ const DashboardCard = ({ title, value, color }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-lg p-4 sm:p-6 shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+    <div className="relative bg-white rounded-lg p-6 sm:p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
       <div
-        className={`absolute -top-8 -right-8 w-20 sm:w-24 h-20 sm:h-24 ${circleColorMap[color]} rounded-full mix-blend-multiply filter blur-2xl opacity-30`}
+        className={`absolute -top-8 -right-8 w-24 h-24 ${circleColorMap[color]} rounded-full mix-blend-multiply filter blur-2xl opacity-30`}
       ></div>
       <h3 className="text-sm sm:text-lg font-semibold text-gray-700">{title}</h3>
-      <p className={`text-2xl sm:text-3xl font-bold mt-3 sm:mt-4 ${colorMap[color]}`}>{value}</p>
+      <p className={`text-3xl sm:text-4xl font-bold mt-4 ${colorMap[color]}`}>{value}</p>
     </div>
   );
 };

@@ -58,8 +58,8 @@ function Sidebar({ className, toggleSidebar }) {
         </NavSection>
 
         <NavSection title="Foods Management">
-          <NavItem to="/admin/adminFood" label="All Foods" icon={<FaBoxOpen size={20} />} onClick={toggleSidebar} />
-          <NavItem to="/admin/addFood" label="Add Food" icon={<FaPlusSquare size={20} />} onClick={toggleSidebar} />
+          <NavItem to="/admin/adminProducts" label="All Products" icon={<FaBoxOpen size={20} />} onClick={toggleSidebar} />
+          <NavItem to="/admin/addProduct" label="Add Food" icon={<FaPlusSquare size={20} />} onClick={toggleSidebar} />
           <NavItem to="/admin/categories" label="Categories" icon={<MdCategory size={20} />} onClick={toggleSidebar} />
         </NavSection>
 

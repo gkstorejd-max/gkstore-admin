@@ -65,7 +65,7 @@ export default function Signin() {
       className="flex items-center justify-center min-h-screen bg-cover bg-center p-6"
       style={{ backgroundImage: `url(/beauty.gif)` }} // Set the background image here
     >
-      <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-xl bg-opacity-80">
+      <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-xl bg-opacity-50"> {/* Adjusted opacity to 50 */}
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Admin Login</h1>
 
         {/* Alert messages */}
@@ -136,6 +136,7 @@ export default function Signin() {
           </button>
         </form>
       </div>
+      <ToastContainer /> {/* Add ToastContainer for toast notifications */}
     </div>
   );
 }

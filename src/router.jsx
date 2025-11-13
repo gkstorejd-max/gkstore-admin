@@ -6,14 +6,14 @@ import Signin from "./pages/auth/Signin";
 import Unauthorized from "./pages/Unauthorized";
 import ProtectedRoute from "./secureRoute/ProtectedRoute";
 import HomePage from "./pages/HomePage";
-import AddFoodForm from "./pages/menu/AddFood";
-import AdminFood from "./pages/menu/AdminFood";
+import AddFoodForm from "./pages/Product/AddProductForm";
+import AdminFood from "./pages/Product/AdminProducts";
 import CategoryList from "./pages/category/CatgoryList";
 import AddCategoryForm from "./pages/category/AddCategoryForm";
 import EditCategory from "./pages/category/EditCategory";
 import ViewCategory from "./pages/category/ViewCatgory";
-import EditFood from "./pages/menu/EditFood";
-import FoodView from "./pages/menu/FoodView";
+import EditFood from "./pages/Product/EditProduct";
+import FoodView from "./pages/Product/FoodView";
 import OffersList from "./pages/offers/OffersList";
 import TotalUserOnWeb from "./pages/users/TotalUserOnWeb";
 import NotFoundPage from './pages/PNF/NotFoundPage';
@@ -51,19 +51,19 @@ const router = createBrowserRouter([
          element : < TotalUserOnWeb />,
       },
       {
-        path:"addFood",
+        path:"addProduct",
         element: <AddFoodForm/>
       },
       {
-          path:"adminFood",
+          path:"adminProducts",
           element: < AdminFood />
       },
       {
-          path:"editFood/:foodId",
+          path:"editProduct/:productId",
           element: <EditFood />
       },
       {
-           path:"food-details/:foodId",
+           path:"product-view/:productId",
            element: <FoodView />
       },
       {
