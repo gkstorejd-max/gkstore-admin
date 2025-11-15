@@ -11,7 +11,7 @@ export default function Dashboard() {
   const ordersRef = useRef();
 
   // const socketURL = 'https://api.the9to9restaurant.com';
-  const socketURL = 'http://localhost:6005';
+  const socketURL = 'https://gkstore-backend.onrender.com/';
 
   useEffect(() => {
     const socket = io(socketURL, {
