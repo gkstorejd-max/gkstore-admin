@@ -240,7 +240,7 @@ export default function AddProductForm() {
           style: { background: "#f97316", color: "#fff" },
         });
         resetForm();
-        navigate("/admin/products");
+        navigate("/admin/adminProducts");
       } else {
         toast.error(data.message || "Failed to create product.", {
           style: { background: "#f97316", color: "#fff" },
